@@ -1,56 +1,145 @@
-'use strict';
+"use strict";
 
 console.log("running");
 
-var jsx = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        'Gaurav'
-    ),
-    React.createElement(
-        'p',
-        null,
-        'This is my first para'
-    ),
-    React.createElement(
-        'ol',
+var app = {
+    name: "Indicision App",
+    subtitle: "This is my first para",
+    option: []
+};
+
+var onFormSubmit = function onFormSubmit(e) {
+    e.preventDefault();
+    var option = e.target.elements.option.value;
+
+    if (option) {
+        app.option.push(option);
+        e.target.elements.option.value = '';
+    }
+    render();
+};
+
+var onClickRemove = function onClickRemove() {
+    // e.preventDefault();
+    app.option = [];
+    render();
+};
+
+function render() {
+    var jsx = React.createElement(
+        "div",
         null,
         React.createElement(
-            'li',
+            "h1",
             null,
-            'Item one'
+            app.name
+        ),
+        app.subtitle && React.createElement(
+            "p",
+            null,
+            app.subtitle
         ),
         React.createElement(
-            'li',
+            "p",
             null,
-            'Item two'
+            app.option.lenth > 0 ? "Here is your options" : "No options",
+            " "
+        ),
+        app.option.length > 0 && React.createElement(
+            "ol",
+            null,
+            app.option.map(function (op) {
+                return React.createElement(
+                    "li",
+                    null,
+                    op
+                );
+            })
+        ),
+        React.createElement(
+            "form",
+            { onSubmit: onFormSubmit },
+            React.createElement("input", { type: "text", name: "option" }),
+            React.createElement(
+                "button",
+                null,
+                "Add the option"
+            )
+        ),
+        React.createElement(
+            "button",
+            { onClick: onClickRemove },
+            "Reset the options"
         )
-    )
-);
+    );
 
-var profile = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        'Gaurav Goyal'
-    ),
-    React.createElement(
-        'p',
-        null,
-        'Age : 20 yrs old.'
-    ),
-    React.createElement(
-        'p',
-        null,
-        'Location : Maur Mandi, Punjab (India).'
-    )
-);
+    ReactDOM.render(jsx, document.getElementById('app'));
+}
 
-ReactDOM.render(jsx, document.getElementById('app'));
+render();
 
-ReactDOM.render(profile, document.getElementById('me'));
+// let app = {
+//     title : 'Indicision App',
+//     subtitle : 'This is my First Quote.'
+
+// };
+
+// const profile = (
+//     <div>
+//         <h1>Gaurav Goyal</h1>
+//         <p>Age : 20 yrs old.</p>
+//         <p>Location : Maur Mandi, Punjab (India).</p>
+//     </div>
+// );
+
+// const title = {
+//     subtitle : "Making indicision app",
+//     arr : []
+// };
+
+// const App = (
+//     <div>
+//         <h1>{app.title}</h1>
+//         <p>{app.subtitle}</p>
+//     </div>
+// );
+
+// const Title = (
+//     <div>
+//         {title.subtitle && <p>{title.subtitle}</p>}
+//         <p>{title.arr.length > 0 ? "Here are your options" : "No Options"}</p>
+//     </div>
+// );
+
+// let count = 0;
+
+// const plusOne = () => {
+//     count++;
+//     renderCounterApp();
+// }
+
+// const minusOne = () => {
+//     count--;
+//     renderCounterApp();
+// }
+
+// const Reset = () => {
+//     count = 0;
+//     renderCounterApp();
+// }
+
+// const renderCounterApp = () => {
+//     const template = (
+//         <div>
+//             <h1>Count : {count}</h1>
+//             <button onClick = {plusOne} >+1</button>
+//             <button onClick = {minusOne} >-1</button>
+//             <button onClick = {Reset} >Reset</button>
+//         </div>
+
+//     );
+
+//     ReactDOM.render(template, document.getElementById('app'));
+// }
+
+// renderCounterApp();
