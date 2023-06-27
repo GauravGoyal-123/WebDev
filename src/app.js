@@ -3,7 +3,8 @@ console.log("running");
 const app = {
     name : "Indicision App",
     subtitle : "This is my first para",
-    option : []
+    option : [[1, "Hello"]],
+    len : 1
 };
 
 const onFormSubmit = (e) => {
@@ -11,7 +12,8 @@ const onFormSubmit = (e) => {
     const option = e.target.elements.option.value;
     
     if(option) {
-        app.option.push(option);
+        app.len++;
+        app.option.push([app.len, option]);
         e.target.elements.option.value = '';
     }
     render();
@@ -20,6 +22,7 @@ const onFormSubmit = (e) => {
 const onClickRemove = () => {
     // e.preventDefault();
     app.option = [];
+    app.len = 0;
     render();
 }
 
@@ -28,12 +31,12 @@ function render() {
         <div>
             <h1>{app.name}</h1>
             {app.subtitle && <p>{app.subtitle}</p>}
-            <p>{app.option.lenth > 0 ? "Here is your options": "No options"} </p>
-            {app.option.length > 0 && 
+            <p>{app.option.length > 0 ? "Here is your options": "No options"} </p>
+            
                 <ol>
-                    {app.option.map((op) => <li>{op}</li>)}
+                    {app.option.map((op) => <li key = {op[0]}>{op[1]}</li>)}
                 </ol>
-            }
+            
             
 
             <form onSubmit = {onFormSubmit}>

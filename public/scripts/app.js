@@ -5,7 +5,8 @@ console.log("running");
 var app = {
     name: "Indicision App",
     subtitle: "This is my first para",
-    option: []
+    option: [[1, "Hello"]],
+    len: 1
 };
 
 var onFormSubmit = function onFormSubmit(e) {
@@ -13,7 +14,8 @@ var onFormSubmit = function onFormSubmit(e) {
     var option = e.target.elements.option.value;
 
     if (option) {
-        app.option.push(option);
+        app.len++;
+        app.option.push([app.len, option]);
         e.target.elements.option.value = '';
     }
     render();
@@ -22,6 +24,7 @@ var onFormSubmit = function onFormSubmit(e) {
 var onClickRemove = function onClickRemove() {
     // e.preventDefault();
     app.option = [];
+    app.len = 0;
     render();
 };
 
@@ -42,17 +45,17 @@ function render() {
         React.createElement(
             "p",
             null,
-            app.option.lenth > 0 ? "Here is your options" : "No options",
+            app.option.length > 0 ? "Here is your options" : "No options",
             " "
         ),
-        app.option.length > 0 && React.createElement(
+        React.createElement(
             "ol",
             null,
             app.option.map(function (op) {
                 return React.createElement(
                     "li",
-                    null,
-                    op
+                    { key: op[0] },
+                    op[1]
                 );
             })
         ),
